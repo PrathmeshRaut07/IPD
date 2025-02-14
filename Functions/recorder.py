@@ -8,7 +8,7 @@ from google.cloud import speech
 from textblob import TextBlob
 key_path=r"stoked-forest-447811-u4-e25fdb4e6e1c.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
-
+speech_client = speech.SpeechClient()
 FORMAT = pyaudio.paInt16      
 CHANNELS = 1                  
 RATE = 16000                 
@@ -70,3 +70,20 @@ def record_audio_stream():
     finally:
         stream.stop_stream()
         stream.close()
+
+def transcribe_audio(audio_data):
+    """
+    Sends the audio_data (raw PCM bytes) to Google Speech-to-Text and returns the transcript.
+    """
+    audio = speech.RecognitionAudio(content=audio_data)
+    config = speech.RecognitionConfig(
+        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+        sample_rate_hertz=RATE,
+        language_code="en-US",
+    )
+    response = speech_client.recognize(config=config, audio=audio)
+    
+    transcription = ""
+    for result in response.results:
+        transcription += result.alternatives[0].transcript
+    return transcription        
