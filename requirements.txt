@@ -2,3 +2,6 @@ pyaudio
 numpy
 librosa
 SpeechRecognition
+google-generativeai
+soundfile
+python-dotenv

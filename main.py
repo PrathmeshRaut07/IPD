@@ -28,14 +28,6 @@ p = pyaudio.PyAudio()
 vad = webrtcvad.Vad(VAD_AGGRESSIVENESS)
 
 
-# -----------------------------
-# Processing Pipeline
-# -----------------------------
-
-
-# -----------------------------
-# Main Loop
-# -----------------------------
 def main():
     for segment in record_audio_stream():
         process_audio_segment(segment)
