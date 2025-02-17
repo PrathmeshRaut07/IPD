@@ -1,4 +1,4 @@
-import collections
+import collections 
 import pyaudio
 import webrtcvad
 import numpy as np
@@ -31,7 +31,19 @@ vad = webrtcvad.Vad(VAD_AGGRESSIVENESS)
 # -----------------------------
 # Initialize Video Capture and MediaPipe Face Mesh for Posture Analysis
 # -----------------------------
-cap = cv2.VideoCapture(0)
+def get_camera():
+    """ Try different camera indexes if default (0) doesn't work """
+    for i in range(3):
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            print(f"Using camera index: {i}")
+            return cap
+    return None
+
+cap = get_camera()
+if cap is None:
+    raise Exception("No camera detected! Check permissions or drivers.")
+
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(
     static_image_mode=False,
@@ -94,7 +106,6 @@ def main():
         while True:
             # Get an audio segment from the microphone
             audio_segment = next(record_audio_stream())
-            # Process the audio segment (transcription, analysis, RL updates, etc.)
             process_audio_segment(audio_segment)
             
             # Capture one frame from the webcam for face posture analysis.
@@ -102,6 +113,13 @@ def main():
             if ret:
                 posture_results = analyze_face_posture(frame, face_mesh)
                 print("Face Posture Analysis:", posture_results)
+
+                # Display the frame
+                cv2.imshow("Camera Feed", frame)
+
+                # Exit on 'q' key press
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
             else:
                 print("Warning: Could not capture video frame.")
             
@@ -109,6 +127,7 @@ def main():
         print("Stopping analysis...")
     finally:
         cap.release()
+        cv2.destroyAllWindows()
         p.terminate()
         face_mesh.close()
 
