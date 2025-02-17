@@ -1,0 +1,152 @@
+
+--- Analysis Timestamp: 2025-02-17 16:04:57 ---
+Transcription: 
+Pitch Rate: 220.0 Hz
+Tone: Casual
+Clarity Score: 0.85 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:05:12 ---
+Transcription: hello
+Pitch Rate: 175.0 Hz
+Tone: Neutral
+Clarity Score: 0.9 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:05:26 ---
+Transcription: hello hello
+Pitch Rate: 180.5 Hz
+Tone: Casual
+Clarity Score: 0.85 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:05:40 ---
+Transcription: hello
+Pitch Rate: 135.7 Hz
+Tone: Casual
+Clarity Score: 0.85 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:05:56 ---
+Transcription: hello hello
+Pitch Rate: 130.0 Hz
+Tone: Casual
+Clarity Score: 0.85 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:06:09 ---
+Transcription: running
+Pitch Rate: 130.5 Hz
+Tone: Neutral
+Clarity Score: 0.9 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:06:21 ---
+Transcription: where
+Pitch Rate: 180.5 Hz
+Tone: Neutral
+Clarity Score: 0.85 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:06:29 ---
+Transcription: do you know me
+Pitch Rate: 150.0 Hz
+Tone: Inquisitive
+Clarity Score: 0.95 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:06:40 ---
+Transcription: 
+Pitch Rate: 160.5 Hz
+Tone: Casual
+Clarity Score: 0.75 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:06:51 ---
+Transcription: student
+Pitch Rate: 165.2 Hz
+Tone: Neutral
+Clarity Score: 0.85 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:07:17 ---
+Transcription: 
+Pitch Rate: 165.2 Hz
+Tone: Neutral
+Clarity Score: 0.92 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:07:15 ---
+Transcription: text to speech we are not
+Pitch Rate: 130.0 Hz
+Tone: Casual
+Clarity Score: 0.8 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:07:44 ---
+Transcription: 
+Pitch Rate: N/A Hz
+Tone: N/A
+Clarity Score: N/A (0 to 1)
+Emotion: N/A
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:08:31 ---
+Transcription: like
+Pitch Rate: 165.2 Hz
+Tone: Casual
+Clarity Score: 0.85 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:08:37 ---
+Transcription: 
+Pitch Rate: 180.0 Hz
+Tone: Casual
+Clarity Score: 0.75 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:08:42 ---
+Transcription: 
+Pitch Rate: 185.2 Hz
+Tone: Casual
+Clarity Score: 0.75 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:08:55 ---
+Transcription: 
+Pitch Rate: 160.0 Hz
+Tone: Casual
+Clarity Score: 0.75 (0 to 1)
+Emotion: Neutral
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:09:29 ---
+Transcription: 
+Pitch Rate: 135.2 Hz
+Tone: Neutral
+Clarity Score: 0.85 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
+
+--- Analysis Timestamp: 2025-02-17 16:09:50 ---
+Transcription: 
+Pitch Rate: 210.5 Hz
+Tone: Neutral
+Clarity Score: 0.9 (0 to 1)
+Emotion: Calm
+--------------------------------------------------
