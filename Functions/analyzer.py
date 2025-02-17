@@ -5,6 +5,7 @@ import pyaudio
 import soundfile as sf
 from google.cloud import speech
 import io
+from nltk.sentiment import SentimentIntensityAnalyzer
 import re
 import wave
 from dotenv import load_dotenv
@@ -19,6 +20,49 @@ load_dotenv()
 os.environ["GOOGLE_API_KEY"]=os.getenv("GOOGLE_API_KEY")
 import google.generativeai as genai
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+def analyze_sentiment(text):
+    if not isinstance(text, str) or not text.strip():
+        return {"error": "Invalid text input. Provide a non-empty string."}
+
+    sia = SentimentIntensityAnalyzer()
+
+    sentiment_scores = sia.polarity_scores(text)
+    
+    return sentiment_scores
+
+
+from textblob import TextBlob
+
+def analyze_tone_textblob(text):
+    if not isinstance(text, str) or not text.strip():
+        return {"error": "Invalid text input. Provide a non-empty string."}
+
+    blob = TextBlob(text)
+    polarity = blob.sentiment.polarity
+    subjectivity = blob.sentiment.subjectivity
+
+    if polarity > 0.1:
+        tone = "Positive"
+    elif polarity < -0.1:
+        tone = "Negative"
+    else:
+        tone = "Neutral"
+
+    if subjectivity < 0.3:
+        subjectivity_label = "Objective"
+    elif subjectivity < 0.6:
+        subjectivity_label = "Slightly Subjective"
+    else:
+        subjectivity_label = "Highly Subjective"
+
+    return {
+        "tone": tone,
+        "subjectivity": subjectivity_label,
+        "polarity": polarity,
+        "subjectivity_score": subjectivity
+    }
+
 def convert_to_wav(audio_data):
     """
     Converts raw PCM audio data to WAV format.
@@ -37,20 +81,16 @@ def analyze_pitch(audio_data):
     Analyzes the audio_data for pitch using librosa.pyin.
     Returns the median pitch (in Hz) of the voiced frames.
     """
-    # Convert raw bytes to numpy array (16-bit PCM)
     audio_samples = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32)
-    # Normalize samples to range [-1, 1]
     audio_samples /= 32768.0
 
     try:
-        # Use librosa's pyin for pitch estimation
         f0, voiced_flag, voiced_prob = librosa.pyin(
             audio_samples, 
             fmin=librosa.note_to_hz('C2'), 
             fmax=librosa.note_to_hz('C7'),
             sr=RATE
         )
-        # Filter out unvoiced frames (NaN values)
         if f0 is not None:
             voiced_f0 = f0[~np.isnan(f0)]
             if len(voiced_f0) > 0:
@@ -95,7 +135,6 @@ Analyze this audio clip and return the following metrics in JSON format:
             ])
 
 
-    # Ensure the response is in JSON format
     try:
         response_text = re.sub(r"```json|```", "", response_text.text).strip()  # Remove backticks
         #print(response_text)  # Debug: Check cleaned JSON string
@@ -104,4 +143,3 @@ Analyze this audio clip and return the following metrics in JSON format:
         analysis_result = {"error": "Invalid response format from AI model"}
 
     return analysis_result
-

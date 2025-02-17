@@ -195,6 +195,8 @@
 # def get_rl_agent():
 #     """Return the global RL agent instance."""
 #     return global_rl_agent
+
+
 import random
 import numpy as np
 from collections import defaultdict
@@ -208,15 +210,13 @@ def compute_reward(metrics):
     tone = metrics.get("tone", "Neutral")
     emotion = metrics.get("emotion", "Neutral")
     
-    # Non-linear clarity scaling to emphasize improvements at higher levels
     clarity_reward = np.tanh(2 * clarity)
     
-    # Gaussian-based pitch reward centered at ideal pitch
+
     ideal_pitch = 150
     pitch_variance = 30
     pitch_reward = np.exp(-((pitch - ideal_pitch) ** 2) / (2 * pitch_variance ** 2))
-    
-    # Enhanced tone rewards with context-awareness
+  
     tone_rewards = {
         "Confident": 1.0,
         "Formal": 0.85,
@@ -225,8 +225,7 @@ def compute_reward(metrics):
         "Casual": 0.4
     }
     tone_reward = tone_rewards.get(tone, 0.5)
-    
-    # Dynamic emotion rewards
+
     emotion_rewards = {
         "Calm": 1.0,
         "Happy": 0.9,
@@ -237,19 +236,17 @@ def compute_reward(metrics):
     }
     emotion_reward = emotion_rewards.get(emotion, 0.5)
     
-    # Adaptive weights based on metric reliability
+
     w_clarity = 0.35
     w_pitch = 0.25
     w_tone = 0.2
     w_emotion = 0.2
-    
-    # Compute overall reward with smoothing
+  
     overall_reward = (w_clarity * clarity_reward +
                      w_pitch * pitch_reward +
                      w_tone * tone_reward +
                      w_emotion * emotion_reward)
-    
-    # Apply reward shaping to encourage consistent improvement
+ 
     shaped_reward = np.tanh(1.5 * overall_reward)
     
     return shaped_reward
@@ -263,8 +260,7 @@ def policy_recommendation(metrics):
     pitch = metrics.get("pitch_rate", 150)
     tone = metrics.get("tone", "Neutral")
     emotion = metrics.get("emotion", "Neutral")
-    
-    # Priority-based recommendations
+ 
     if clarity < 0.5:
         recommendations.append("Critical: Focus on clear enunciation and slower speech rate.")
     elif clarity < 0.7:
@@ -277,13 +273,11 @@ def policy_recommendation(metrics):
             recommendations.append("Gradually raise your pitch for better engagement.")
         else:
             recommendations.append("Slightly lower your pitch for optimal delivery.")
-    
-    # Context-aware tone recommendations
+
     if tone in ["Casual", "Neutral"]:
-        if clarity > 0.6:  # Only suggest tone improvements if clarity is decent
+        if clarity > 0.6: 
             recommendations.append("Project more confidence while maintaining your clear delivery.")
-    
-    # Emotional balance recommendations
+
     if emotion in ["Sad", "Angry"]:
         recommendations.append("Maintain professional composure while expressing your points.")
     elif emotion == "Excited" and clarity < 0.6:
@@ -316,15 +310,13 @@ class RLAgent:
         pitch = metrics.get("pitch_rate", 150)
         tone = metrics.get("tone", "Neutral")
         emotion = metrics.get("emotion", "Neutral")
-        
-        # Finer-grained clarity levels
+      
         clarity_level = int(np.floor(clarity * 5))  # 0-4 levels
         
-        # Dynamic pitch binning
+
         pitch_ranges = [120, 140, 160, 180]
         pitch_level = sum(pitch > p for p in pitch_ranges)
         
-        # Enhanced tone mapping
         tone_map = {
             "Casual": 0, "Neutral": 1, "Persuasive": 2,
             "Formal": 3, "Confident": 4
@@ -349,14 +341,12 @@ class RLAgent:
             self.q_table[state] = {action: 0.0 for action in self.actions}
         
         if random.random() < self.epsilon:
-            # Intelligent exploration: favor less-visited actions
             action_visits = {a: self.visit_counts[state][a] for a in self.actions}
             min_visits = min(action_visits.values())
             least_visited = [a for a, v in action_visits.items() if v == min_visits]
             return random.choice(least_visited)
         
-        # UCB exploration bonus
-        C = 2.0  # exploration constant
+        C = 2.0  
         N = sum(self.visit_counts[state].values()) + 1
         
         def ucb_value(action):
@@ -370,31 +360,28 @@ class RLAgent:
         """
         Enhanced Q-learning update with experience replay and adaptive learning.
         """
-        # Ensure both states exist in Q-table
         if state not in self.q_table:
             self.q_table[state] = {action: 0.0 for action in self.actions}
         if next_state not in self.q_table:
             self.q_table[next_state] = {action: 0.0 for action in self.actions}
-        
-        # Update visit counts
+
         self.visit_counts[state][action] += 1
         self.total_updates += 1
         
-        # Compute adaptive learning rate
+
         effective_alpha = self.alpha / np.sqrt(self.visit_counts[state][action])
         
-        # Get next best action and its Q-value
+
         next_action = max(self.q_table[next_state].items(), key=lambda x: x[1])[0]
         next_q = self.q_table[next_state][next_action]
         
-        # Update with experience replay
+
         current_q = self.q_table[state][action]
         new_q = current_q + effective_alpha * (
             reward + self.gamma * next_q - current_q
         )
         self.q_table[state][action] = new_q
         
-        # Decay exploration rate
         self.epsilon = max(0.05, self.epsilon * 0.9999)
     
     def act(self, current_metrics, next_metrics):
@@ -404,7 +391,6 @@ class RLAgent:
         state = self.get_state(current_metrics)
         next_state = self.get_state(next_metrics)
         
-        # Initialize Q-values if needed
         if state not in self.q_table:
             self.q_table[state] = {action: 0.0 for action in self.actions}
         if next_state not in self.q_table:
@@ -413,7 +399,7 @@ class RLAgent:
         action = self.choose_action(state)
         reward = compute_reward(current_metrics)
         
-        # Apply reward shaping based on state transition
+        
         if state != next_state:
             shaped_reward = reward * (1 + 0.1 * sum(abs(a - b) for a, b in zip(state, next_state)))
         else:
@@ -422,7 +408,7 @@ class RLAgent:
         self.update(state, action, shaped_reward, next_state)
         return action, reward
 
-# Define action space
+
 actions = [
     "NoAction",
     "ImproveClarity",
