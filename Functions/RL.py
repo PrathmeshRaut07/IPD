@@ -1,4 +1,3 @@
-# RL.py
 import random
 
 def compute_reward(metrics):
@@ -14,12 +13,12 @@ def compute_reward(metrics):
     tone = metrics.get("tone", "Neutral")
     emotion = metrics.get("emotion", "Neutral")
     
-    # --- Pitch Reward ---
+  
     ideal_pitch = 150
     pitch_diff = abs(pitch - ideal_pitch)
     pitch_reward = max(0.0, 1 - (pitch_diff / ideal_pitch))
     
-    # --- Tone Reward ---
+
     tone_rewards = {
         "Confident": 1.0,
         "Formal": 0.8,
@@ -28,8 +27,7 @@ def compute_reward(metrics):
         "Casual": 0.3
     }
     tone_reward = tone_rewards.get(tone, 0.5)
-    
-    # --- Emotion Reward ---
+
     emotion_rewards = {
         "Calm": 1.0,
         "Happy": 0.9,
@@ -39,8 +37,7 @@ def compute_reward(metrics):
         "Angry": 0.1
     }
     emotion_reward = emotion_rewards.get(emotion, 0.5)
-    
-    # --- Weighted Sum ---
+
     w_clarity = 0.4
     w_pitch = 0.2
     w_tone = 0.2
@@ -66,20 +63,20 @@ def policy_recommendation(metrics):
     if clarity < 0.7:
         recommendations.append("Speak slower and enunciate your words more clearly.")
     
-    # Recommendation based on pitch (assume ideal=150 Hz with ±20 Hz tolerance)
+
     ideal_pitch = 150
     if pitch < ideal_pitch - 20:
         recommendations.append("Try to raise your pitch to sound more energetic.")
     elif pitch > ideal_pitch + 20:
         recommendations.append("Lower your pitch for a calmer delivery.")
     
-    # Recommendation based on tone
+    
     if tone == "Casual":
         recommendations.append("Adopt a more confident tone to enhance professionalism.")
     elif tone == "Neutral":
         recommendations.append("Infuse more conviction into your tone.")
     
-    # Recommendation based on emotion
+    
     if emotion in ["Sad", "Angry"]:
         recommendations.append("Maintain a calm and positive demeanor while speaking.")
     
@@ -112,8 +109,7 @@ class RLAgent:
         pitch = metrics.get("pitch_rate", 150)
         tone = metrics.get("tone", "Neutral")
         emotion = metrics.get("emotion", "Neutral")
-        
-        # Discretize clarity: 0=low, 1=medium, 2=high
+    
         if clarity < 0.4:
             clarity_level = 0
         elif clarity < 0.7:
@@ -121,7 +117,6 @@ class RLAgent:
         else:
             clarity_level = 2
         
-        # Discretize pitch: 0=low, 1=ideal, 2=high (using 130 and 170 Hz as thresholds)
         if pitch < 130:
             pitch_level = 0
         elif pitch > 170:
@@ -179,7 +174,7 @@ class RLAgent:
         self.update(state, action, reward, next_state)
         return action, reward
 
-# Expanded list of possible actions
+
 actions = [
     "NoAction",
     "ImproveClarity",
@@ -194,7 +189,7 @@ actions = [
     "DecreaseVolume"
 ]
 
-# Instantiate a global RL agent that can be imported elsewhere.
+
 global_rl_agent = RLAgent(actions, alpha=0.1, gamma=0.9, epsilon=0.2)
 
 def get_rl_agent():
